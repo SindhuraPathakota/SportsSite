@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://infoo.herokuapp.com/course/php/note/php_en -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title></title><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link rel="stylesheet" href="./php_en_files/style.css"><link rel="stylesheet" href="./php_en_files/prism.css"><link rel="stylesheet" href="./php_en_files/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script src="./php_en_files/clipboard.min.js.download"></script></head><body><h1 id="php">PHP</h1>
+<p><a href="https://infoo.herokuapp.com/course/php/note/php_en#intro">Introduction</a> - <a href="https://infoo.herokuapp.com/course/php/note/php_en#execution">Execution of PHP</a> - <a href="https://infoo.herokuapp.com/course/php/note/php_en#language">The PHP language</a> - <a href="https://infoo.herokuapp.com/course/php/note/php_en#forms">Forms</a> - <a href="https://infoo.herokuapp.com/course/php/note/php_en#cookies">Cookies</a> - <a href="https://infoo.herokuapp.com/course/php/note/php_en#sessions">Sessions</a> - <a href="https://infoo.herokuapp.com/course/php/note/php_en#json">JSON</a> - <a href="https://infoo.herokuapp.com/course/php/note/php_en#database">Database</a> </p>
+<h2 id="a-nameintroaintroduction"><a name="intro"></a>Introduction</h2>
+<p>This course aims to teach the basics of back-end programmation, using PHP, in LAMP/WAMP environments and also to understand the HTTP client-server context.</p>
+<p>More specifically, at the end of this course, you will know:</p>
+<ul>
+<li>The principles of <strong>HTTP</strong> data exchange between the browser and server (the client-server)</li>
+<li>The basics of the <strong>PHP language</strong> and PHP code execution</li>
+<li>How to build site <strong>pages</strong> using PHP, without framework</li>
+<li>Inject <strong>dynamic data</strong> into the pages</li>
+<li>Process <strong>forms</strong> data, validate it and eventually, re-display these forms</li>
+<li>Add <strong>users</strong> centric features such as registration, login, shopping cart or preferences storage, using PHP <strong>sessions</strong>.</li>
+<li>How to simply set up a Windows/<em>Apache</em>/PHP (WAMP) <strong>development environment</strong></li>
+<li>And <strong>deploy</strong> the site on a Linux/<em>Apache</em>/PHP (LAMP) server</li>
+</ul>
+<p>You will use either the <a href="https://www.jetbrains.com/phpstorm/">PHP Storm</a> or the <a href="https://code.visualstudio.com/">Visual Studio Code</a> development environments (IDE) to create your site.</p>
+<p>Important ! This course <strong>does not teach databases</strong>, even if using one in the final practical project is requires. </p>
+<h3 id="the-server-side-work-back-end">The server-side work (back-end)</h3>
+<p>In the HTML course, you write <code>.html</code> extension files containing HTML code (sometimes incorporating CSS and / or Javascript). To view these files in the browser, you have opened these <code>.html</code> files from the local disk, for example, by dragging and dropping.</p>
+<p>This way of opening the page is only suiarray for testing local files and only for HTML files.</p>
+<p>Normally, pages are loaded <strong>from the web</strong>. They are provided by a remote machine, called a server, and are carried via the HTTP protocol. The browser requests the pages to a server, which responds by sending the requested content (HTML among others).</p>
+<p>In this course, you work on files that will be placed on a server and delivered by this same server.</p>
+<p>The advantage of placing the files on a server is of course to allow the distribution of content to multiple client stations from different locations.</p>
+<p>But the server fulfills another important role: Creating dynamic ** content **.
+When you consult a page on the internet, the content delivered by the server are never the same and depend very much on the navigation context:</p>
+<ul>
+<li>Custom content for each user: social sites, sites with user accounts, etc.</li>
+<li>Constantly updated content (newswires, blogs, online media sites, etc.)</li>
+</ul>
+<p>These permanent changes, sometimes depending on the user on the client computer, require the intervention of <strong>programs</strong> that deliver the ad-hoc content.</p>
+<p>To accomplish this task, the server must be equipped so that:</p>
+<ul>
+<li>It can execute quite complex tasks by programming</li>
+<li>HTML page code is organized in a flexible, modular way so that the server can build complete pages from information that changes constantly.</li>
+</ul>
+<p>This is where a <em>back-end</em> language like PHP comes in. When the user loads a page from a PHP site, this page is manufactured from scratch by PHP, the request.</p>
+<p>On the server, there is no <em>.html</em> file containing the source code of an entire page, but rather <em>.php</em> files that contain PHP instructions to build up HTML content from various data.</p>
+<p>Of course, the HTML itself is not completely absent from the server, but it is just handled in a more modular way.</p>
+<p><img src="./php_en_files/php_client_serveur.png" alt="" title="The client-server and PHP"></p>
+<p>In a simplified way, here is how the loading of a Web page, in an HTTP server context with PHP:</p>
+<ol>
+<li>The user types a URL (or clicks on a hyperlink)</li>
+<li>The browser makes an HTTP request to the server concerned</li>
+<li>The HTTP server receives the request and determines ** which PHP ** file should perform the page processing</li>
+<li>The server calls the PHP engine to process the page and produce the HTML code</li>
+<li>The HTTP server responds to the browser with the HTML code of the page produced by PHP</li>
+<li>The browser displays the page from which it received the code</li>
+</ol>
+<p>note! Often, the URL does not explicitly contain the file name. It is the HTTP server that decides (with its own rules) which file should process the request and produce the code of the response.</p>
+<h3 id="php-context-and-history">PHP context and history</h3>
+<p>PHP is now being developed by the <a href="http://www.zend.com/">Zend Technologies Ltd</a> american company. It is a free software and free to use, under license.</p>
+<p>In the case of the <em>Apache</em> server, PHP works as an <strong><em>Apache</em> module</strong>.</p>
+<p>PHP can also run <strong>without a web server</strong> which make possible to run scripts in command line mode.</p>
+<p>Like <em>Apache</em>, PHP can run on any OS (Linux, Windows and Mac OS). It can also work with HTTP servers other than <em>Apache</em>.</p>
+<p>PHP was created from scripts written in C by Rasmus Lerdorf. He wanted to make some simple scripts for his own professional information pages (count the number of visitors, include a guestbook, etc.). He called this tool _Personal _Home _Page Tools. It published it in June 1995 and is in a way the version PHP 1.0. The PHP of the beginning is thus a simple base for some utilities.</p>
+<p>For a project at the University of Toronto, Rasmus Lerdorf wanted to reuse his framework. He needed to integrate it into a web server. The <em>Apache</em> server, which was growing in popularity at this time, offered this flexibility.</p>
+<p>In June 1995, he rewrote PHP/FI, version 2, to include a <strong>form interpreter</strong> and support for <strong>mySQL</strong>. The success was immediate. The community began to contribute to the code.</p>
+<p>In April 1996, the author announced PHP 2.0 as a server language for embedded scripts in HTML (<em>HTML embedded scripting language</em>). This language offered access log, access control, and SQL query support functionality. The author presented it as a <strong>free tool</strong>, including commercial use, the quickest and easiest way to create sites using databases on a UNIX platform. This was the birth of a server-side scripting language.</p>
+<p>At the end of 1996, PHP runs 15,000 sites, and mid-1997, more than 50,000.</p>
+<p>With this success, given the need to improve the robustness of the analyzer and the proposal of several contributors, the author turns his personal project into a real <strong>open source project</strong>. The analyzer (<em>parser</em>), which is the heart of the engine, is rewritten by two programmers Zeev Suraski and Andi Gutmans.</p>
+<p>In June 1998, PHP 3 is born. PHP becomes the acronym for <em>PHP: HyperText Preprocessor</em>. This is the first widely used version of PHP.</p>
+<p>In May 2000, the heart of PHP, named Zend Engine 1.0, is the basis for the new PHP 4, more sarray and fast.</p>
+<p>In 2001, <strong>7 million</strong> sites.</p>
+<p>In 2004, <strong>PHP 5</strong> brings a better object model than in PHP version 4.</p>
+<p>Today (m.a.j. march 2018) programmers work on two branches: Branch 7 (version 7.2) and branch 5 (version 5.6). In the course, we are using version 5.6.</p>
+<h2 id="a-nameexecutionaexecution-of-php"><a name="execution"></a>Execution of PHP</h2>
+<p>The <em>Apache</em> server executes PHP code only if the file has the exention <code>.php</code>. This is configurable. It's best to use the <code>.php</code> extension for PHP today.</p>
+<p>A PHP file also runs from outside the server, for example, from the command line, using the <code>php.exe</code> interpreter. It's convenient and useful for working code without the server and without a browser.</p>
+<h3 id="file-inclusion">File inclusion</h3>
+<p>PHP allows to <em>include</em> within a given script some code from other scripts. We use  <strong>inclusion instructions</strong>.
+The included code may contain both instructions and declarations.</p>
+<p>The included file can be found in the file tree of the site or on another site. PHP code provides the ability to include files that may no longer exist at run time. So there are two instructions available:</p>
+<ul>
+<li><code>include</code> which does not trigger a fatal error (just a warning) if the file is missing.</li>
+<li><code>require</code> which triggers a fatal error (script stop) if the file is missing.</li>
+</ul>
+<p>It is common for a file to be included twice in a script without being obvious to the programmer. This happens for example when the script includes two separate files, both of which include the same file.</p>
+<p>In this cas, to avoid redeclarations, PHP provides the statements <code>include_once</code> and <code>require_once</code> in place of <code>include</code> and <code>require</code> respectively.</p>
+<h4 id="relative-and-absolute-paths">Relative and absolute paths</h4>
+<p>The inclusion mechanism can be complicated when the included files are in different directories and the files that make the inclusion are themselves called from different directories.</p>
+<p>In this case, to designate the included files, it is preferable to use <strong>absolute paths</strong> (expressed with OS paths), and defined from the script that makes the inclusion.</p>
+<p>To do this, you can use the expression <code>dirname(__FILE__)</code>, where:</p>
+<ul>
+<li><code>__FILE__</code> is a magic constant representing the full path of the current script file.</li>
+<li><code>dirname()</code> is the function that returns the absolute directory path from a given full file path.</li>
+</ul>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">/*
+ * File /views/menu.php
+ */</span>
+<span class="token comment">// Including file located at root : /defines.php</span>
+<span class="token keyword">require_once</span><span class="token punctuation">(</span><span class="token function">dirname</span><span class="token punctuation">(</span><span class="token constant">__</span> <span class="token constant">FILE__</span><span class="token punctuation">)</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">'/../defines.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="stopping-a-php-script">Stopping a PHP script</h3>
+<p>The PHP script ends naturally at the end of the main file that processes the request. However, you can stop a PHP script using the <code>exit()</code> function (or the <code>exit</code> statement). This is useful when you want to stop execution if a condition is met. The <code>exit()</code> function can return a value being used by callee.</p>
+<p>Once the script is stopped, the content already placed in the HTTP response is sent to the client and the transaction becomes complete.</p>
+<h3 id="summary-of-script-and-execution-functions">Summary of script and execution functions</h3>
+<div class="card summary">
+
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>include()</code></td>
+<td>Include the file, possibly several times, no fatal error if it is absent</td>
+</tr>
+<tr>
+<td><code>include_once()</code></td>
+<td>Include the file, one time, no fatal error if he is absent</td>
+</tr>
+<tr>
+<td><code>require()</code></td>
+<td>Include the file, possibly multiple times, fatal error triggered if he is absent</td>
+</tr>
+<tr>
+<td><code>require_once()</code></td>
+<td>Include the file, one-time, fatal error triggered if he is absent</td>
+</tr>
+<tr>
+<td><code>exit()</code> or <code>exit</code></td>
+<td>Stops execution of script</td>
+</tr>
+<tr>
+<td><code>dirname()</code></td>
+<td>Returns <strong>parent</strong> directory path for given full file path</td>
+</tr>
+<tr>
+<td><code>basename()</code></td>
+<td>Returns last part of given full path</td>
+</tr>
+<tr>
+<td><code>urlencode()</code></td>
+<td>Encodes non ASCII string contents to make valid urls</td>
+</tr>
+<tr>
+<td><code>__FILE__</code></td>
+<td>Magic constant holding the full path of current script file (can be an included script)</td>
+</tr>
+<tr>
+<td><code>$_SERVER["SCRIPT_FILENAME"]</code></td>
+<td>Holds full path of the executed <strong>main</strong> script file</td>
+</tr>
+<tr>
+<td><code>$_SERVER['PHP_SELF']</code></td>
+<td>Holds currently running script path relatively to site root</td>
+</tr>
+</tbody></table>
+</div>
+
+<h3 id="the-php-file">The PHP file</h3>
+<p>A PHP code file is often called <em>script</em>. 
+PHP is originally designed to be embbeded inside HTML code. In this case, PHP instructions are separated from HTML code by enclosing them in dedicated tags. Here is an example of HTML and PHP <em>blocks</em> mixed in the same PHP file : </p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment">// php code at top of file</span>
+<span class="token delimiter important">?&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+        ...
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>header</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span><span class="token php language-php"><span class="token delimiter important">&lt;?=</span> <span class="token comment">// php expression </span><span class="token delimiter important">?&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>main</span><span class="token punctuation">&gt;</span></span>
+            <span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+                <span class="token comment">// php code</span>
+            <span class="token delimiter important">?&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>main</span><span class="token punctuation">&gt;</span></span>
+        <span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+            <span class="token comment">// php code</span>
+        <span class="token delimiter important">?&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+<span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment">// php code bottom of file</span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<p>Generally, a PHP site is made of hundreds of PHP files containing only PHP code (no HTML). Such files start immediately with the PHP block. The opening part of PHP tag <code>&lt;?php</code> must be the very first characters of the file and the closing part <code>?&gt;</code> should be the very last characters. But it is preferable to not close the tag in such a file.
+Here is the example of a "pure" PHP file with it's single block with no closing tag : </p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment">// php code</span>
+<span class="token comment">// in all file</span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<p><code>PHP_EOL</code> is a constant that allows to introduce end of lines in the output (especially used to format the HTML)</p>
+<h3 id="the-php-tag">The PHP tag</h3>
+<p>The PHP code is placed between the opening <code>&lt;?php ...</code> and closing <code>...?&gt;</code> parts of what forms a tag. Tag and enclosed PHP code form a <em>PHP block</em>.
+It is possible to place as many PHP blocks as you want in the same PHP file. They share the same memory space (definitions, variables in memory) as if they were the same code placed in a single block.</p>
+<p>We do not use the old and deprecated <code>&lt;?...?&gt;</code> and <code>&lt;% ...%&gt;</code> tags (<em>short open tags</em>).</p>
+<h3 id="the-short-echo-tag">The short echo tag</h3>
+<p>In PHP, we often display (put characters in the output). This job is done with an <code>echo</code> statement. For example, <code>&lt;?php echo $page_title?&gt;</code>, outputs the contents of the <code>$page_title</code> variable. The <em>short echo tag</em> performs this output job in a more compact way. The previous example becomes <code>&lt;?= $page_title ?&gt;</code>.</p>
+<p>Example of a typical PHP/HTML file with <em>short echo tags</em> :</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token comment">//Declarations</span>
+<span class="token variable">$id1</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'cont_1'</span><span class="token punctuation">;</span>
+<span class="token variable">$id2</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'cont_2'</span><span class="token punctuation">;</span>
+<span class="token delimiter important">?&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token php language-php"><span class="token delimiter important">&lt;?=</span> <span class="token variable">$id1</span><span class="token punctuation">;</span> <span class="token delimiter important">?&gt;</span></span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Container one<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!-- ... ---&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token php language-php"><span class="token delimiter important">&lt;?=</span> <span class="token variable">$id2</span><span class="token punctuation">;</span> <span class="token delimiter important">?&gt;</span></span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Container two<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="the-output-stream-php--html">The output stream PHP / HTML</h3>
+<p>One of the roles of a back-end langage is to write contents in the HTTP response. These contents can be set in the HTTP header or written in the HTTP body.
+For instance, in the case of a script building an HTML page, characters can be produced in two ways :</p>
+<ul>
+<li>By PHP code itself :  PHP writes (we can say <em>outputs</em>) characters in the response using specific instructions, e.g. <code>echo ...</code>, <code>&lt;?= ...?&gt;</code>, <code>printf</code> and also in a developping context, <code>var_dump()</code>.</li>
+<li>Some HTML code located <strong>outside</strong> the PHP blocks which is also written in the response.</li>
+</ul>
+<p>Warning! Beware of characters that might be "out" in inappropriate contexts:</p>
+<ul>
+<li>Characters wrote in the output <strong>before</strong> the PHP code has set some HTTP header parameters (using <code>header()</code> function).</li>
+<li>A UTF-8 BOM (Byte Order Mark) could be set at the beginning of file if this option is not disabled in the editor.</li>
+<li>Error messages placed in the middle of some HTML code and hidden by browser in the page rendering (for example, inside a <code>&lt;select&gt;</code> element).</li>
+</ul>
+<h3 id="http-header">HTTP header</h3>
+<p>note! You can read this sections later in the course, at the time of cookies and sessions</p>
+<p>In the [HTTP] (070_HTTP.md) page, you learn that the HTTP header precedes the body. PHP also works in this order because it processes the response <strong>sequentially</strong> (roughly). The bulk of the response header is handled transparently for the PHP coder, but you sometimes have to add or modify header parameters.</p>
+<p>PHP maintains a cache mechanism (called <em>output_buffering</em>) to allow the writing of parameters <strong>while</strong> characters have already been placed in the body of the response.</p>
+<p>However, to respect the natural sequence of response information it is best to process the header parameters before any character output in the body of the response.</p>
+<p>Therefore, the following statements <code>header()</code>, <code>session_start()</code>, <code>setcookie()</code> should be placed before any output by <code>echo</code> or any output of HTML characters out of PHP tag.
+It is also for this reason that it is better not to close the PHP tag at the bottom of a file ending with PHP code.</p>
+<h3 id="php-configuration">PHP configuration</h3>
+<h4 id="configure-the-phpini-file">Configure the <em>php.ini</em> file</h4>
+<p>The configuration of PHP is done using a <em>php.ini</em> file.
+WampServer can open <em>php.ini</em> file directly. In my present version of WampServer, file is located here: <em>"C:\wamp64\bin\apache\apache2.4.33\bin\php.ini"</em>. </p>
+<p><img src="./php_en_files/php_ini_wampserver.png" alt=""></p>
+<p>Here are some parameters that are important to know in the <em>php.ini</em> file, especially to switch to a production environment.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>output_buffering = 4096</code></td>
+<td>Size of the output buffering cache</td>
+</tr>
+<tr>
+<td><code>error_reporting = E_ALL</code></td>
+<td>Level of error notification (use <code>E_ALL &amp; ~E_DEPRECATED &amp; ~E_STRICT</code> in production)</td>
+</tr>
+<tr>
+<td><code>display_errors = On</code></td>
+<td>Display errors in the output (use <code>Off</code> in production)</td>
+</tr>
+<tr>
+<td><code>file_uploads = On</code></td>
+<td>Enables file upload</td>
+</tr>
+<tr>
+<td><code>upload_max_filesize = 2M</code></td>
+<td>Maximum size of upload data accepted in a request</td>
+</tr>
+</tbody></table>
+<h4 id="displaying-errors">Displaying errors</h4>
+<p>By default, PHP activated maximum error reporting. This is particulary important in development phases. Some hosting platforms configure PHP in production mode, so errors, even fatal ones, are not displayed. 
+To activate development error reporting at script level, place these two instructions at the very beginning of your PHP scripts : </p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token function">error_reporting</span><span class="token punctuation">(</span><span class="token constant">E_ALL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">ini_set</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"display_errors"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h2 id="a-namelanguageathe-php-language"><a name="language"></a>The PHP language</h2>
+<p>The <a href="http://ca3.php.net/manual/en/langref.php">PHP language reference</a> is the official documentation.</p>
+<p>PHP is principally a <strong>procedural language</strong>. You will mostly use functions. However, the PHP language supports full object oriented programming (<em>OOP</em>). A lot of libraries and frameworks make use of <em>OOP</em>, as do developped products .</p>
+<h3 id="statements">Statements</h3>
+<p>The PHP statement is terminated with the semicolon char (<code>;</code>). Semicolon is not needed before closing a PHP block.</p>
+<h3 id="comments">Comments</h3>
+<p>Comments follow the <em>C</em> syntax :</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">// One line or end of line comment</span>
+
+<span class="token comment">/* Part of line comment */</span>
+
+<span class="token comment">/* Comment
+over
+several lines */</span>
+
+<span class="token comment">/*
+ * This is a DocBlock way comment
+ * Get information here : http://en.wikipedia.org/wiki/PHPDoc 
+ */</span>
+</code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="identifiers">Identifiers</h3>
+<p>PHP variable name must start by the <code>$</code> character. Characters following the <code>$</code> follow rules of C or Javascript languages.  </p>
+<p><strong>Dont use accented characters</strong> and avoid uppercase letters as first char (reserved to class names).</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token variable">$files_count</span> <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token comment">// valid</span>
+<span class="token comment">//$3rd_street = 'WRONG'; is NOT valid because first char after `$` cannot be a digit.</span>
+<span class="token variable">$_abc</span> <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token comment">// valid but should not be kept for specific conventional use</span>
+$ééééé <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// Don't</span>
+<span class="token variable">$TeaForTwo</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// Avoid first char uppercase</span>
+<span class="token variable">$teaForThree</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// good</span>
+<span class="token variable">$tea_for_four</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// good</span>
+</code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="case-sensitivity">Case Sensitivity</h3>
+<p>Variable identifiers are <strong>case-sensitive</strong>.
+On the other hand, function identifiers are case <strong>insensitive</strong>.
+Literal constants <code>null</code> or <code>NULL</code>, <code>false</code> or <code>FALSE</code>, <code>true</code> or <code>TRUE</code> are case <strong>insensitive</strong>.</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">// Variable names are case sensitive</span>
+<span class="token variable">$a</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// First variable</span>
+<span class="token variable">$A</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// Second distinct variable</span>
+<span class="token keyword">echo</span> <span class="token variable">$a</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'-'</span><span class="token punctuation">,</span> <span class="token variable">$A</span><span class="token punctuation">;</span> <span class="token comment">// --&gt; 0-1</span>
+
+<span class="token comment">// Function names are case INsensitive</span>
+<span class="token keyword">echo</span> <span class="token function">round</span><span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'-'</span><span class="token punctuation">,</span> <span class="token function">ROUND</span><span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// --&gt; 0-0</span>
+<span class="token keyword">function</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">echo</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'-'</span><span class="token punctuation">,</span> <span class="token function">F</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// --&gt; 0-0</span>
+
+<span class="token comment">// Literal constants are case INsensitive</span>
+<span class="token variable">$a</span> <span class="token operator">=</span> <span class="token constant">null</span><span class="token punctuation">;</span> <span class="token comment">// good</span>
+<span class="token variable">$a</span> <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span> <span class="token comment">// same</span>
+<span class="token variable">$a</span> <span class="token operator">=</span> <span class="token boolean constant">false</span><span class="token punctuation">;</span> <span class="token comment">// good</span>
+<span class="token variable">$a</span> <span class="token operator">=</span> <span class="token boolean constant">FALSE</span><span class="token punctuation">;</span> <span class="token comment">// same</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="objects-notation">Objects notation</h3>
+<p>PHP objects do not use the <code>.</code> notation like <em>C++</em>, <em>Java</em> or <em>Javascript</em>.
+Instead, it uses the symbol <code>-&gt;</code> (2 characters).</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token variable">$conn</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">mysqli</span> <span class="token punctuation">(</span><span class="token variable">$servername</span><span class="token punctuation">,</span> <span class="token variable">$username</span><span class="token punctuation">,</span> <span class="token variable">$password</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Check connection</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$conn</span><span class="token operator">-</span><span class="token operator">&gt;</span> connect_error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">die</span> <span class="token punctuation">(</span><span class="token double-quoted-string string">"Connection failed:"</span><span class="token punctuation">.</span> <span class="token variable">$conn</span><span class="token operator">-</span><span class="token operator">&gt;</span> connect_error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="types">Types</h3>
+<p>There are <strong>6 types</strong> of data in PHP:</p>
+<ul>
+<li>boolean</li>
+<li>integer</li>
+<li>float (decimal numbers)</li>
+<li>string</li>
+<li>array</li>
+<li>object</li>
+</ul>
+<p>One could add the pointers to the functions (callbacks) or some resources generated by the language. Finally, the value <code>NULL</code> which is not really a type but does not belong to any of the 6 previous types.</p>
+<p>The <code>gettype()</code> function indicates the type of a variable (or expression).</p>
+<h3 id="variables">Variables</h3>
+<p>There is no variable variable declaration in PHP. Since PHP is dynamically typed, there is no type definition either. The type is simply deduced by the interpreter, This is called <em>type inference</em>.</p>
+<p>In PHP, the creation of a variable is done by a simple initialization, i.e. assigning any value to a variable name. After this, variable exists, meaning that its name is reserved in the symbols table. The <code>isset()</code> boolean function tells you if a variable is defined or not. 
+Use <code>unset()</code> to delete a variable (rarely done in PHP).
+<code>empty()</code> function indicates whether a variable is empty or not.</p>
+<p>See also <code>isset()</code> and <code>unset()</code> functions in the context of <a href="https://infoo.herokuapp.com/course/php/note/php_en#arrays">Arrays</a>.</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">// isset(), unset()</span>
+<span class="token variable">$a</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// Now, there is a new variable named $a</span>
+<span class="token variable">$b</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// Now, there is a new variable named $b</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$a</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$b</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+<span class="token keyword">unset</span><span class="token punctuation">(</span><span class="token variable">$b</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Variable $b doesn't exist anymore</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$b</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+
+<span class="token comment">// empty()</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token keyword">empty</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token keyword">empty</span><span class="token punctuation">(</span><span class="token number">0.0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token keyword">empty</span><span class="token punctuation">(</span><span class="token boolean constant">false</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token keyword">empty</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'0'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token keyword">empty</span><span class="token punctuation">(</span><span class="token constant">null</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token keyword">empty</span><span class="token punctuation">(</span><span class="token single-quoted-string string">''</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token keyword">empty</span><span class="token punctuation">(</span><span class="token keyword">array</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="variables-in-functions">Variables in functions</h3>
+<p>Global variables (those declared outside a function) can not be used directly inside a function : You must use the <code>global</code> keyword.</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token variable">$conn</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">mysqli</span> <span class="token punctuation">(</span><span class="token variable">$servername</span><span class="token punctuation">,</span> <span class="token variable">$username</span><span class="token punctuation">,</span> <span class="token variable">$password</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> addItem <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">global</span> <span class="token variable">$conn</span><span class="token punctuation">;</span> <span class="token comment">// variable $global conn</span>
+    <span class="token comment">//...</span>
+    <span class="token variable">$Conn</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">query</span> <span class="token punctuation">(</span><span class="token variable">$sql</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="constants">Constants</h3>
+<p>Constants, unlike variables, are data that can not be changed or deleted.
+Conversely, constants always have a <strong>global scope</strong> and, unlike variables, can be used locally in a function, without the <code>global</code> declaration.
+Uppercased names are highly recommended. This is a very common usage.</p>
+<p>Constants are defined using either the <code>define()</code> function or the <code>const</code> keyword.</p>
+<p><code>define()</code> takes two arguments :</p>
+<ol>
+<li>First, the <strong>name</strong> of the constant, enclosed bewtween apostrophes or quotation marks. </li>
+<li>Second, the <strong>value</strong> of the constant. 
+The <strong>value</strong> of a constant must be a scalar type (boolean, integer, float, string or <code>NULL</code>). The value can also be expressed using a <strong>simple expression</strong>, eventually itself making use of another constant.
+By default, constants are <strong>case sensitive</strong>: <code>offline</code> and <code>OFFLINE</code> are two distinct constants. You can change this case sensitivity at the declaration (3rd parameter of the <code>define()</code> function).</li>
+</ol>
+<p>With <code>const</code>, the declaration is simpler. Unlike <code>define()</code>, the name of the constant must not be encloded within quotation marks.
+However, with <code>const</code>, you can't use expressions for a value.</p>
+<p>Boolean function <code>defined()</code> (with a <strong>d</strong>) lets you determine whether a constant has been previously defined or not.</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+
+<span class="token comment">// Declaring constants</span>
+<span class="token function">define</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'NB_CRITERIA'</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">define</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'SITE_NAME'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'JAMES Typography'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">define</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'PAGE_NAME'</span><span class="token punctuation">,</span> <span class="token constant">SITE_NAME</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">'- Home'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// possible concatenation for the value</span>
+<span class="token function">define</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'TOTAL_NB'</span><span class="token punctuation">,</span> <span class="token constant">NB_CRITERIA</span> <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">:</span> <span class="token comment">// simple arithmetic operations too</span>
+<span class="token comment">// TOTAL_NB += 10; // forbidden -&gt; It is a constant, not a variable !</span>
+
+<span class="token keyword">const</span> <span class="token constant">ONLINE</span> <span class="token operator">=</span> <span class="token boolean constant">true</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token constant">TITLE</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'JAMES Typography'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Using (reading) constants</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">defined</span><span class="token punctuation">(</span><span class="token constant">NB_CRITERIA</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// true</span>
+    <span class="token variable">$nb</span> <span class="token operator">=</span> <span class="token constant">NB_CRITERIA</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token delimiter important">?&gt;</span></span>
+
+<span class="token comment">&lt;!-- PHP constants in some HTML --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span><span class="token php language-php"><span class="token delimiter important">&lt;?=</span> <span class="token constant">SITE_NAME</span> <span class="token delimiter important">?&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span><span class="token php language-php"><span class="token delimiter important">&lt;?=</span> <span class="token constant">TITLE</span> <span class="token delimiter important">?&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="summary-of-functions">Summary of functions</h3>
+<div class="card summary">
+
+<table>
+<thead>
+<tr>
+<th>function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>var_dump()</code></td>
+<td>Dumps variable or value content as formated HTML in the output</td>
+</tr>
+<tr>
+<td><code>echo() or echo</code></td>
+<td>Writes characters in the output</td>
+</tr>
+<tr>
+<td><code>PHP_EOL</code></td>
+<td>Provides end-of-line chars sequence depending on hosting OS</td>
+</tr>
+<tr>
+<td><code>gettype()</code></td>
+<td>Returns the type of a variable (or of an expression)</td>
+</tr>
+<tr>
+<td><code>isset()</code></td>
+<td>Indicates whether a variable has been set or not</td>
+</tr>
+<tr>
+<td><code>defined()</code></td>
+<td>Indicates whether a constant has been set or not</td>
+</tr>
+<tr>
+<td><code>unset()</code></td>
+<td>Deletes a variable or an array element</td>
+</tr>
+<tr>
+<td><code>empty()</code></td>
+<td>Indicates whether argument is <em>empty</em> or not (empty array, empty string, ...)</td>
+</tr>
+<tr>
+<td><code>is_null()</code></td>
+<td>Indicates if argument has <code>null</code> value or not</td>
+</tr>
+<tr>
+<td><code>is_int()</code></td>
+<td>Indicates whether argument is an integer or not</td>
+</tr>
+<tr>
+<td><code>is_numeric()</code></td>
+<td>Indicates if argument is compatible with an integer, float or hexadecimal or not</td>
+</tr>
+</tbody></table>
+</div>
+
+<h3 id="strings">Strings</h3>
+<p>Strings are very present in the web-back-end work.
+PHP does not support Unicode in basic string manipulations. Specialized functions must be used for that.</p>
+<p>PHP literal strings can be enclosed by single (<code>'</code>) or double quotes (<code>"</code>) but there is a <strong>difference</strong>:</p>
+<ul>
+<li>When enclosed between single quotes, strings are <em>as is</em> (no replacement mechanism).</li>
+<li>When enclosed between double quotes, PHP parses the literal string content in search of variable names and if any, replaces them by corresponding values. They act as <em>template strings</em>.</li>
+</ul>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token variable">$s1</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'Simple string'</span><span class="token punctuation">;</span>
+<span class="token keyword">echo</span> <span class="token single-quoted-string string">'&lt;p id="par1"&gt;&lt;img src="logo.png" alt="Elix company logo" /&gt;&lt;/p&gt;'</span><span class="token punctuation">;</span> <span class="token comment">// No need of escaping the " char</span>
+<span class="token keyword">echo</span> <span class="token single-quoted-string string">'It\'s so good !'</span><span class="token punctuation">;</span> <span class="token comment">// escaping the ' char</span>
+<span class="token keyword">echo</span> <span class="token single-quoted-string string">'Path is C:\\wamp64\\alias'</span><span class="token punctuation">;</span> <span class="token comment">// escaping the backslash \ chars</span>
+
+<span class="token variable">$name</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'Luka'</span><span class="token punctuation">;</span>
+<span class="token variable">$floor_nb</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'second'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Enclosed within "" :</span>
+<span class="token variable">$couplet</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"My name is <span class="token interpolation"><span class="token variable">$name</span></span>, I live on the <span class="token interpolation"><span class="token variable">$floor_nb</span></span> floor"</span><span class="token punctuation">;</span> <span class="token comment">// 'My name is Luka, I live on the second floor'</span>
+<span class="token keyword">echo</span> <span class="token double-quoted-string string">"It's so good !"</span><span class="token punctuation">;</span> <span class="token comment">// No need to escape the '</span> char
+<span class="token keyword">echo</span> <span class="token double-quoted-string string">"It's so \"cool\" !"</span><span class="token punctuation">;</span> <span class="token comment">// escaping required this time</span>
+<span class="token keyword">echo</span> <span class="token double-quoted-string string">"Size:\t8"</span><span class="token punctuation">;</span> <span class="token comment">// escaping t char to insert a tabulation char</span>
+<span class="token keyword">echo</span> <span class="token double-quoted-string string">"Prices are expressed in \$cad"</span><span class="token punctuation">;</span> <span class="token comment">//Escaping the $ char in order to avoid substitution with a missing variable $cad</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<p>PHP provides an imposing library of <a href="http://php.net/manual/en/ref.strings.php">string functions</a>.
+Note that most string functions do not change the subject string: They instead return a new modified string.</p>
+<p>The <a href="http://php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc">Heredoc syntax</a>, not presented here is useful for declaring large blocks of text. The variables are interpreted, as with the syntax in quotation marks.</p>
+<h4 id="concatenation">Concatenation</h4>
+<p>The concatenation symbol is the dot (<code>.</code>). You may also use the <code>.=</code> <strong>assignment operator</strong> to add chars at the end of a string variable.</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token keyword">const</span> <span class="token constant">SITENAME</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'JAMES Typography'</span><span class="token punctuation">;</span>
+<span class="token variable">$title</span> <span class="token operator">=</span> <span class="token constant">SITENAME</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">'- About'</span><span class="token punctuation">;</span>
+<span class="token variable">$res</span> <span class="token operator">=</span> <span class="token single-quoted-string string">''</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token variable">$i</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token variable">$i</span> <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token variable">$i</span><span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token variable">$res</span> <span class="token punctuation">.</span><span class="token operator">=</span> <span class="token variable">$i</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">','</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">echo</span> <span class="token variable">$c1</span><span class="token punctuation">,</span> <span class="token variable">$c2</span><span class="token punctuation">;</span> <span class="token comment">// You do not need to concatenate here, this is even faster</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h4 id="summary-of-string-functions">Summary of string functions</h4>
+<div class="card summary">
+
+<table>
+<thead>
+<tr>
+<th>based</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chr()</code></td>
+<td>Returns the character (a string of length 1) from its ASCII code (an integer)</td>
+</tr>
+<tr>
+<td><code>strlen()</code></td>
+<td>Returns the length of a string (integer)</td>
+</tr>
+<tr>
+<td><code>strtoupper()</code>, <code>strtolower()</code></td>
+<td>Converts a string to uppercase and lowercase respectively</td>
+</tr>
+<tr>
+<td><code>ucfirst()</code></td>
+<td>Capitalize the first character of a string</td>
+</tr>
+<tr>
+<td><code>ucwords()</code></td>
+<td>Capitalize the first characters of all words.</td>
+</tr>
+<tr>
+<td><code>substr()</code></td>
+<td>Extract a substring based on a position and a length</td>
+</tr>
+<tr>
+<td><code>str_pad()</code></td>
+<td>Complete a string with a substring, right or left, to obtain a fixed length</td>
+</tr>
+<tr>
+<td><code>strpos()</code></td>
+<td>Returns the position of the ** first ** occurrence of a substring in a string</td>
+</tr>
+<tr>
+<td><code>strrpos()</code></td>
+<td>Returns the position of the last ** occurrence of a substring in a string</td>
+</tr>
+<tr>
+<td><code>str_replace()</code></td>
+<td>Returns a string after replacing all occurrences of a substring with another substring</td>
+</tr>
+<tr>
+<td><code>trim()</code>, <code>ltrim()</code>, <code>rtrim()</code></td>
+<td>Removes the spaces at the beginning-end, beginning, end of the chain.</td>
+</tr>
+<tr>
+<td><code>explode()</code></td>
+<td>Make a array from a list of texts delimited by a separator.</td>
+</tr>
+<tr>
+<td><code>implode()</code></td>
+<td>Put all the contents of a array as a list-string.</td>
+</tr>
+<tr>
+<td><code>preg_match()</code></td>
+<td>Parses a string against a regular expression.</td>
+</tr>
+</tbody></table>
+</div>
+
+<h3 id="ternary-operator">Ternary operator</h3>
+<p>The ternary operator is useful for expressing a string following a condition:</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token variable">$txt</span> <span class="token operator">=</span> <span class="token variable">$nb</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">'page'</span> <span class="token punctuation">.</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token variable">$nb</span> <span class="token operator">&gt;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token single-quoted-string string">'s'</span> <span class="token punctuation">:</span> <span class="token single-quoted-string string">''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Display the contents of $_POST['username'] if the value exists, nothing (empty string) otherwise</span>
+<span class="token keyword">echo</span> <span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$_</span> <span class="token constant">POST</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'username'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token variable">$_POST</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'username'</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token single-quoted-string string">''</span><span class="token punctuation">;</span>
+</code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="control-statements">Control statements</h3>
+<h3 id="conditional">Conditional</h3>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">// is without else</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$a</span> <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// if else</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$a</span> <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// elseif</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$a</span> <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span> <span class="token keyword">elseif</span> <span class="token punctuation">(</span><span class="token variable">$a</span> <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span> <span class="token keyword">elseif</span> <span class="token punctuation">(</span><span class="token variable">$a</span> <span class="token operator">&lt;</span> <span class="token number">30</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// switch</span>
+<span class="token keyword">switch</span> <span class="token punctuation">(</span><span class="token variable">$type</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token single-quoted-string string">'alpha'</span><span class="token punctuation">:</span>
+        <span class="token comment">// ...</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token single-quoted-string string">'beta'</span><span class="token punctuation">:</span>
+        <span class="token comment">// ...</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">default</span><span class="token punctuation">:</span>
+        <span class="token comment">// ...</span>
+<span class="token punctuation">}</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="loops">Loops</h3>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">// for</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token variable">$a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token punctuation">;</span> <span class="token variable">$a</span><span class="token operator">&lt;=</span><span class="token number">31</span> <span class="token punctuation">;</span> <span class="token variable">$a</span><span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// while</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$a</span> <span class="token operator">&gt;</span> <span class="token number">5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// do ... while</span>
+<span class="token variable">$a</span> <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+<span class="token keyword">do</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+    <span class="token variable">$a</span><span class="token operator">--</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$a</span> <span class="token operator">&gt;</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//foreach (see arrays)</span>
+
+<span class="token comment">//break</span>
+<span class="token variable">$found</span> <span class="token operator">=</span> <span class="token boolean constant">false</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token variable">$a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token punctuation">;</span> <span class="token variable">$a</span><span class="token operator">&lt;=</span><span class="token number">31</span> <span class="token punctuation">;</span> <span class="token variable">$a</span><span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">is_my_favorite_day</span><span class="token punctuation">(</span><span class="token variable">$a</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token variable">$found</span> <span class="token operator">=</span> <span class="token boolean constant">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="a-namearraysaarrays"><a name="arrays"></a>Arrays</h3>
+<p>PHP developers make a very intensive use of arrays. PHP arrays are flexible and powerful.</p>
+<p>PHP arrays are always <strong>associative arrays</strong>, i.e. holding unordered elements accessed with a key instead of an integer index.</p>
+<ul>
+<li>One accesses an element by its key, e.g. <code>$t['name']</code></li>
+<li>The key is unique: There can not be two elements that have the same key</li>
+<li>Keys can be integers or strings</li>
+<li>Values ​​can be of any type, including arrays, objects, or <code>null</code></li>
+</ul>
+<p>Associative arrays require a special loop to traverse the elements one by one because their keys are not necessarily ordered integers. This is the <code>foreach</code> loop.</p>
+<p>In development phases use <code>var_dump()</code> or <code>print_r()</code> function to watch arrays contents.
+Arrays are created by either <code>array()</code> function or by the <code>[]</code> notation.<br>To delete a  given element in array, use the <code>unset()</code> function. If keys where originately ordered integers, the array may have a "hole" in the index keys.
+To empty an array (rarely done), just re-assign an empty array to the array variable: <code>$tab = array();</code></p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">// Creation</span>
+<span class="token variable">$t</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Create empty array with the array() function</span>
+<span class="token variable">$t</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// Also create empty array</span>
+<span class="token variable">$t</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'tile'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'heart'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'spades'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'clover'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 4 elements, automatically indexed 0 -&gt; 3</span>
+
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$t</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token function">array_key_exists</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token variable">$t</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true, better than isset</span>
+
+<span class="token variable">$t</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token single-quoted-string string">'tile'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'heart'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'spades'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'clover'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 4 elements, automatically indexed 1 -&gt; 4</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token function">array_key_exists</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token variable">$t</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+
+<span class="token variable">$temperatures</span> <span class="token operator">=</span> <span class="token keyword">array</span> <span class="token punctuation">(</span>
+<span class="token single-quoted-string string">'mon'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token number">17.8</span><span class="token punctuation">,</span>
+<span class="token single-quoted-string string">'tue'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token number">19.4</span><span class="token punctuation">,</span>
+<span class="token single-quoted-string string">'wed'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token number">21.5</span><span class="token punctuation">,</span>
+<span class="token single-quoted-string string">'thu'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token number">15.2</span><span class="token punctuation">,</span>
+<span class="token single-quoted-string string">'fri'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token number">14.5</span><span class="token punctuation">,</span> <span class="token comment">// leaving a coma after the last element is allowed and </span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5 elements defined by key-value pairs</span>
+
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token function">array_key_exists</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'tue'</span><span class="token punctuation">,</span> <span class="token variable">$temperatures</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+
+<span class="token comment">// Reading</span>
+<span class="token keyword">echo</span> <span class="token single-quoted-string string">'Tuesday, the temperature will be '</span> <span class="token punctuation">,</span> <span class="token variable">$temperatures</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'tue'</span><span class="token punctuation">]</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'°C'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Changing values</span>
+<span class="token variable">$temperatures</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'tue'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">15.2</span><span class="token punctuation">;</span> <span class="token comment">// assigning</span>
+<span class="token variable">$temperatures</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'tue'</span><span class="token punctuation">]</span> <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">0.5</span><span class="token punctuation">;</span> <span class="token comment">// incrementing, now 15.7</span>
+
+<span class="token comment">// Adding values</span>
+<span class="token variable">$temperatures</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'sat'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">18.4</span><span class="token punctuation">;</span>
+
+<span class="token variable">$t</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token variable">$t</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment">// $t is now [2]</span>
+<span class="token variable">$t</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment">// $t is now [2,3]</span>
+<span class="token variable">$t</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token comment">// $t is now [2,3,5]</span>
+
+<span class="token comment">// Structured array</span>
+<span class="token variable">$office_hours</span> <span class="token operator">=</span> <span class="token keyword">array</span> <span class="token punctuation">(</span>
+    <span class="token single-quoted-string string">'mon'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span> <span class="token punctuation">(</span>
+        <span class="token single-quoted-string string">'AM'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'8H'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'12H30'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token single-quoted-string string">'PM'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'14H'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'18H30'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token single-quoted-string string">'tue'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span> <span class="token punctuation">(</span>
+        <span class="token single-quoted-string string">'AM'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'8H'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'12H30'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token single-quoted-string string">'PM'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'14H'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'18H30'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token comment">//...</span>
+    <span class="token single-quoted-string string">'sat'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span> <span class="token punctuation">(</span>
+        <span class="token single-quoted-string string">'AM'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'9H'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'13H'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// working half day</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token single-quoted-string string">'sun'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span> <span class="token punctuation">(</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// closing day</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Reading</span>
+<span class="token keyword">echo</span> <span class="token single-quoted-string string">'On tuesday afternoon, office opens at '</span> <span class="token punctuation">,</span> <span class="token variable">$office_hours</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'tue'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'PM'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// 14H</span>
+
+<span class="token comment">// Removing elements, emptying array</span>
+<span class="token variable">$days</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'mon'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'tue'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'wed'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'thu'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'fri'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5 elements</span>
+<span class="token keyword">unset</span><span class="token punctuation">(</span><span class="token variable">$days</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'wed'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">// now, 4 elements, whose keys are 0, 1, 3 and 4 (no more key with value 2 )</span>
+<span class="token variable">$day</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// emptying a previously filled array --&gt; elements are deleted</span>
+
+<span class="token comment">// Traversing array</span>
+<span class="token variable">$total</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$temperatures</span> <span class="token keyword">as</span> <span class="token variable">$celcius</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token variable">$total</span> <span class="token operator">+</span><span class="token operator">=</span> <span class="token variable">$celcius</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">echo</span> <span class="token single-quoted-string string">'&lt;p&gt;Average temperature:'</span> <span class="token punctuation">,</span> <span class="token function">round</span><span class="token punctuation">(</span><span class="token variable">$total</span><span class="token operator">/</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token variable">$temperatures</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'&lt;/p&gt;'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Traversing and using the keys</span>
+<span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$temperatures</span> <span class="token keyword">as</span> <span class="token variable">$day</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token variable">$celcius</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> <span class="token double-quoted-string string">"&lt;p&gt;On <span class="token interpolation"><span class="token variable">$day</span></span>, temperature will be <span class="token interpolation"><span class="token punctuation">{</span><span class="token variable">$celcius</span><span class="token punctuation">}</span></span>°C&lt;/p&gt;"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Special key cases (beware of implicit conversions):</span>
+<span class="token keyword">echo</span> <span class="token variable">$t</span><span class="token punctuation">[</span><span class="token number">1.2</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// refers to $t[1] (float -&gt; rounded integer)</span>
+<span class="token keyword">echo</span> <span class="token variable">$t</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'1'</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// refers to $t[1] (string -&gt; integer)</span>
+<span class="token keyword">echo</span> <span class="token variable">$t</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'01'</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// DOES NOT refer to $t[1] (key unchanged)</span>
+<span class="token keyword">echo</span> <span class="token variable">$t</span><span class="token punctuation">[</span><span class="token constant">null</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// refers to $t[''] (empty string key)</span>
+<span class="token keyword">echo</span> <span class="token variable">$t</span><span class="token punctuation">[</span><span class="token boolean constant">false</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// refers to $t[0]</span>
+<span class="token keyword">echo</span> <span class="token variable">$t</span><span class="token punctuation">[</span><span class="token boolean constant">true</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// refers to $t[1]</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h4 id="superglobals">Superglobals</h4>
+<p>Each time a script is executed, PHP automatically loads associative arrays named <strong>superglobals</strong>, holding parameters related to the execution context of the script. Superglobals are about HTTP request and response, execution environment (server and OS) and PHP sessions.</p>
+<p>Superglobals are <strong>variables</strong> already initialized at the beginning of script execution. Most of the time, we read their contents but they may be modified either. 
+Superglobals, unlike other variables, are valid <strong>anywhere in the code</strong>. In particular, they are accessible within user functions without using the <code>global</code> statement. </p>
+<p>The superglobals used in this course are:</p>
+<table>
+<thead>
+<tr>
+<th>Superglobal</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>$_COOKIES</code></td>
+<td>The cookie settings sent in the header of the HTTP request</td>
+</tr>
+<tr>
+<td><code>$_GET</code></td>
+<td>URL data (query string parameters)</td>
+</tr>
+<tr>
+<td><code>$_FILES</code></td>
+<td>Uploaded files data (see <a href="https://infoo.herokuapp.com/course/php/note/php_en#forms">Forms</a> chapter)</td>
+</tr>
+<tr>
+<td><code>$_POST</code></td>
+<td>The POST data (the <em>form data</em> placed in the body of the HTTP request)</td>
+</tr>
+<tr>
+<td><code>$_SERVER</code></td>
+<td>Information about the execution context of the script (HTTP context and information on the server and the OS</td>
+</tr>
+<tr>
+<td><code>$_SESSION</code></td>
+<td>PHP session data, stored on the server</td>
+</tr>
+</tbody></table>
+<h4 id="summary-of-array-functions">Summary of array functions</h4>
+<div class="card summary">
+
+<table>
+<thead>
+<tr>
+<th>function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>count()</code></td>
+<td>Number of elements in array</td>
+</tr>
+<tr>
+<td><code>in_array()</code></td>
+<td>Indicates whether a <strong>value</strong> is present or not in the array</td>
+</tr>
+<tr>
+<td><code>array_search()</code></td>
+<td>Looks for the first occurence of a value in array. Returns its <strong>key</strong> is present, false otherwise.</td>
+</tr>
+<tr>
+<td><code>array_key_exists()</code></td>
+<td>Indicates whether a <strong>key</strong> is present or not in the array</td>
+</tr>
+<tr>
+<td><code>is_array()</code></td>
+<td>Determines if a given variable is an array.</td>
+</tr>
+<tr>
+<td><code>array_keys()</code></td>
+<td>Returns a new array whose <strong>values​​</strong> are the <strong>keys</strong> of the given array. Values ​​are naturally indexed (0,1,2 ...)</td>
+</tr>
+<tr>
+<td><code>unset()</code></td>
+<td>Deletes an element in array</td>
+</tr>
+<tr>
+<td><code>print_r()</code></td>
+<td>Displays array content with keys and values (debugging purpose)</td>
+</tr>
+<tr>
+<td><code>array_pop()</code></td>
+<td>Pops and returns an element from the end of array</td>
+</tr>
+<tr>
+<td><code>array_push()</code></td>
+<td>Stack values at the end of array and return the new number of elements</td>
+</tr>
+<tr>
+<td><code>array_shift()</code></td>
+<td>Extracts and return an element from the beginning of an array</td>
+</tr>
+<tr>
+<td><code>array_unshift()</code></td>
+<td>Inserts values at the beginning of an array and returns the new number of elements</td>
+</tr>
+<tr>
+<td><code>range()</code></td>
+<td>Creates an array containing integers ranging between to values</td>
+</tr>
+</tbody></table>
+</div>
+
+
+<h2 id="a-nameformsaforms"><a name="forms"></a>Forms</h2>
+<h3 id="principles">Principles</h3>
+<p>Form data is passed through GET and POST requests</p>
+<ul>
+<li>GET by default</li>
+</ul>
+<h3 id="data-validation">Data validation</h3>
+<p>Validation of the data transmitted must be done on the side of the server as it is done on the client side. It's imperative !</p>
+<ul>
+<li>The server is the guarantor of data and their consistency</li>
+<li>Data can be transmitted not any client (previous version, page submitted by malicious script)</li>
+<li>Embedded code on the client side (HTML + JS) are not always in phase (many developmental delights)</li>
+</ul>
+<h3 id="references">References</h3>
+<ul>
+<li>[<a href="http://php.net/manual/en/book.filter.php">http://php.net/manual/en/book.filter.php</a> Filter Library on PHP.net]</li>
+<li>[<a href="http://www.w3schools.com/php/php_filter.asp">http://www.w3schools.com/php/php_filter.asp</a> Filter Library on W3Schools.com]</li>
+</ul>
+<h3 id="upload">Upload</h3>
+<p>Upload consists of sending file data in <strong>POST</strong> requests. User selects one or several files from it's browser, and submits them to the site. Then Apache/PHP catch and manages files at server side. Only POST forms can submit files.
+Upload requires these settings :</p>
+<ul>
+<li>The HTML submission form must have the <code>enctype="multipart/form-data"</code> attribute set to ensure that no data encoding will be processed by client.</li>
+<li>Form element uses <code>post</code> method.</li>
+<li>The PHP setting <code>file_uploads = On</code> is set in <code>php.ini</code> configuration file.</li>
+</ul>
+<h2 id="a-namecookiesacookies"><a name="cookies"></a>Cookies</h2>
+<p>The HTTP protocol, for the same user, provides ** no link ** between the visit of one page and the next. For example, if the user visits a page A of the site, then a few seconds later, a page B of the same site, the HTTP protocol does not define ** link ** between these two consultations. With basic HTTP communication, the server does not know that it is the same user who viewed page A and page B.</p>
+<p>Therefore, there is a need to put in place a mechanism to overcome this deficiency and establish continuity, that is, to record information as the user uses the site.
+The first part of this mechanism are ** cookies **. The second is the [sessions] (090_php_sessions.md) that we'll see right after.</p>
+<p>Cookies are parameters stored on the client machine and used by the server to find, from one query to the next, some information on the use that is made of the site. In other termens, the server leaves a trace on the client machine and retrieves it on the next request.</p>
+<p>Thanks to cookies, the server can ** adapt the content of the page ** according to the parameters it receives from the client. For example, on an online sales site, a cookie will record the category of products that the user is looking at most often.</p>
+<h3 id="http-transfer-of-cookies">HTTP transfer of cookies</h3>
+<p>The mechanism for HTTP transfer of cookies between the client and the server is as follows:</p>
+<ol>
+<li>The client makes a first request to the server. The cookie is initially missing from the request.</li>
+<li>The server examines the cookie values ​​it receives. Since it does not receive the expected value, it defines it in the header of the response (<code>Set-Cookie: name = value; ...</code>).</li>
+<li>The client browser saves the cookie.</li>
+<li>At the next request, the client sends the cookie (<code>Cookie: name = value</code>).</li>
+</ol>
+<p>! [] (../ images / u08_cookies / cookies_client_server.png "Client-server cookies")</p>
+<p>In HTTP, cookies are found:</p>
+<ul>
+<li>In the HTTP response: header parameter named <code>Set-Cookie</code>, as many<code>Set-Cookie</code> parameters as there are different cookies.</li>
+<li>In the HTTP request: header parameter named <code>Cookie</code>, all cookies sent by the client and concerned by the request are in the value of the parameter, listed, separated by semicolons<code>;</code>.</li>
+</ul>
+<p>! [] (../ images / u08_cookies / cookie_request_reponse.png "Cookies request and answer")</p>
+<h3 id="characteristics-of-cookies">Characteristics of cookies</h3>
+<p>Cookies are saved on the client computer in the browser. As a result, they are ** not shared ** between different browsers.</p>
+<p>Cookies are saved:</p>
+<ul>
+<li>in the form of ** pairs (name, value) **. The value is always text. Pay attention to the conversion when setting the cookie.</li>
+<li>by ** domain name **. The browser does not share them between different sites.</li>
+<li>for a ** limited time *<em>. When the server sets a cookie for the client machine, it indicates an *</em> expiry date ** in the form of a timestamp. The cookie is deleted by the browser when it reaches the expiration date.</li>
+</ul>
+<h3 id="disadvantages">Disadvantages</h3>
+<p>Cookies provide a very useful mechanism but have <strong>disadvantages</strong> :</p>
+<ul>
+<li>They are sent to each client request which weighs down.</li>
+<li>They transit over the network: risk of security if the data is sensitive.</li>
+<li>As they are registered on the client side, these parameters are not transferable to the same user coming from another client workstation.</li>
+</ul>
+<p>note! Cookies are accessible from Javascript code : <code>document.cookies</code>.</p>
+<h3 id="write-a-cookie">Write a cookie</h3>
+<p>Cookies are defined (written) using the <code>setcookie()</code> function. Since cookies are stored in HTTP header parameters, your should use this function before writing characters in the body of the HTTP response (for instance). An <em>output buffering</em> mechanism can be used to overcome this problem, but it is better not to use it.</p>
+<p>Function <code>setcookie()</code> takes at least 3 arguments :</p>
+<p><code>setcookie($cookie_name, $cookie_value, $expiration_date, $path, $domain)</code></p>
+<ul>
+<li><em>cookie name</em> is the name of the cookie (string)</li>
+<li><em>cookie value</em> is the cookie value (string or converted to a string)</li>
+<li><em>expiration date</em> is the <em>timestamp</em> (seconds) indicating to client when the cookie should be deleted</li>
+<li>[OPTIONAL] <em>path</em> is the URL path, i.e. the part after the domain name, in which the cookie is valid</li>
+<li>[OPTIONAL] <em>field</em> is the domain in which the cookie is valid</li>
+</ul>
+<h3 id="read-a-cookie">Read a cookie</h3>
+<p>Cookies from the query are placed by PHP in the <code>$_COOKIE</code> superglobal.
+The <code>$_COOKIE</code> array is only used for reading.</p>
+<h3 id="delete-a-cookie">Delete a cookie</h3>
+<p>Deleting a cookie is a client side operation. Server just has to <strong>set</strong> the cookie (value doesn't matter) giving it an expiration date that is passed already.</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">// Setting a cookie</span>
+<span class="token function">setcookie</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'likes_chocolate'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'yes'</span><span class="token punctuation">,</span> <span class="token function">time</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">31</span><span class="token operator">*</span><span class="token number">24</span><span class="token operator">*</span><span class="token number">3600</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sets a cookie for 1 month</span>
+
+<span class="token comment">// Getting a cookie supposed stored the request</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">array_key_exists</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'likes_chocolate'</span><span class="token punctuation">,</span> <span class="token variable">$_COOKIE</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token variable">$user_likes_chocolate</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'yes'</span> <span class="token operator">===</span> <span class="token variable">$_COOKIE</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'likes_chocolate'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Deleting a cookie at the client side (f.i. the browser)</span>
+<span class="token function">setcookie</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'likes_chocolate'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">''</span><span class="token punctuation">,</span> <span class="token function">time</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">3600</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sets cookie in the past --&gt; deletion</span>
+<span class="token keyword">unset</span><span class="token punctuation">(</span><span class="token variable">$_COOKIE</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'likes_chocolate'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Deleting the PHP variable</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="summary-of-cookie-functions">Summary of cookie functions</h3>
+<div class="card summary">
+
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>setcookie()</code></td>
+<td>Sets a cookie () in the header of the HTTP response</td>
+</tr>
+<tr>
+<td><code>$_COOKIE</code></td>
+<td>Superglobal array of the cookies stored in the request</td>
+</tr>
+</tbody></table>
+</div>
+
+
+<h2 id="a-namesessionsasessions"><a name="sessions"></a>Sessions</h2>
+<p>User sessions are a <strong>very</strong> central feature in websites.
+The purpose of sessions is to provide some <strong>continuity</strong> in activity of users as they visit website pages or as they use web application. One example of session purpose is to ensure that user stay connected along requests he/she makes on the site.</p>
+<p>What identifies the visitor and its session is a unique <strong><em>session id</em></strong> assigned to him. By default, <em>session id</em> is stored in a cookie transmitted in the response and then, in subsequent requests.
+Sometimes, web sites store the <em>session id</em> inside page hyperlinks or hidden input elements in case of form data submitting.
+AJAX requests also require the transport of the session id.</p>
+<p>note! Sessions do not imply connection and login/logout functionality. <strong>Anonymous visitors</strong> may benefit of automatic sessions. This is what <em>Amazon</em> platform do with customers watching products even before they have registered or logged-in.</p>
+<h3 id="php-sessions">PHP sessions</h3>
+<p>Session data is stored at <strong>server-side</strong> in PHP implementations. Most of the time, they are saved in the site database but PHP provides a convenient <strong>automatic file based session storage</strong>.  In this case, PHP manages data files in a specific folder on the server.  </p>
+<p>The session information is:</p>
+<ul>
+<li>saved on the server at PHP level (and not at <em>Apache</em> level)</li>
+<li>saved for each different distinct visitor</li>
+<li>a <em>session id</em> cookie is automatically generated and placed in HTTP response, and then re-sent in the subsequent requests. <em>session id</em> can also be set in the  query string parameters or in the POST data.</li>
+</ul>
+<h3 id="using-php-session">Using PHP session</h3>
+<p>As it is time and resource costly, PHP session macanisme requires you <strong>activate it</strong>.
+Otherwise the session data will not be loaded, even if the visitor has a session stored.</p>
+<p>Activation is done by calling the <code>session_start()</code> function <strong>prior</strong> to using any session related functions.</p>
+<p>By default, the call to <code>session_start()</code> triggers the use of a session id cookie. Like <code>setcookie()</code>, the <code>session_start()</code> call must be placed before any characters were written in the response body, in particular before any HTML output.</p>
+<p>After call to <code>session_start()</code>, the <code>$_SESSION</code> superglobal becomes available for read or write operations.</p>
+<h3 id="write-data-in-session">Write data in session</h3>
+<p>To write a variable in session, add or modify elements in the <code>$_SESSION</code> array.
+Any data can be placed in session, it is not necessary to transform the data as a string (<strong>serialize</strong>) as you should do with cookies or in text files.
+You can modify data at any time during script execution. At the end of execution, the session data (i.e. the contents of <code>$_SESSION</code> array) are automatically stored.</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token function">session_start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// start a user session</span>
+<span class="token comment">// Adding background color in session</span>
+<span class="token variable">$_SESSION</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'background_color'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'#f7d2e8'</span><span class="token punctuation">;</span>
+<span class="token comment">// Adding cart data in session (2 items, each including a quantity and a color)</span>
+<span class="token variable">$_SESSION</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'cart'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">array</span> <span class="token punctuation">(</span>
+    <span class="token single-quoted-string string">'54'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span> <span class="token punctuation">(</span>
+        <span class="token single-quoted-string string">'qty'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token number">2</span><span class="token punctuation">,</span>
+        <span class="token single-quoted-string string">'color'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token single-quoted-string string">'fushia'</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token single-quoted-string string">'28'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span> <span class="token punctuation">(</span>
+        <span class="token single-quoted-string string">'qty'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token number">3</span><span class="token punctuation">,</span>
+        <span class="token single-quoted-string string">'color'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token single-quoted-string string">'blue'</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="read-data-from-session">Read data from session</h3>
+<p>After call to <code>session_start()</code>, <code>$_SESSION</code> array automatically contains all user data, as stored in previous requests.</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token function">session_start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// starts user session</span>
+<span class="token comment">// Reading some value (assuming they are present)</span>
+<span class="token variable">$bckColor</span> <span class="token operator">=</span> <span class="token variable">$_SESSION</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'background_color'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token variable">$cart</span> <span class="token operator">=</span><span class="token operator">&amp;</span> <span class="token variable">$_SESSION</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'cart'</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// Using a reference is convenient</span>
+<span class="token keyword">echo</span> <span class="token variable">$cart</span><span class="token punctuation">[</span><span class="token number">54</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'color'</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// --&gt;fushia</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="deleting-data-in-session">Deleting data in session</h3>
+<p>To delete some data in session just remove corresponding elements in the <code>$_SESSION</code> array.</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token function">session_start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// starts user session</span>
+<span class="token keyword">unset</span><span class="token punctuation">(</span><span class="token variable">$_SESSION</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'background_color'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// deletes 'background_color' data</span>
+<span class="token keyword">unset</span><span class="token punctuation">(</span><span class="token variable">$_SESSION</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'cart'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// deletes 'cart' data</span>
+<span class="token comment">// $_SESSION = array(); // empties the WHOLE CONTENT of the session (but do not deletes the session)</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="check-if-a-session-is-already-started">Check if a session is already started</h3>
+<p>PHP does not allow two consecutive calls to <code>session_start()</code>. With included scripts, it is better to test before if no session is started:</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">// Testing if no session has been started by another script</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">session_status</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token constant">PHP_SESSION_NONE</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">session_start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="manage-the-session-cookie">Manage the session cookie</h3>
+<p>The name of the session cookie can be obtained or changed through <code>session_name()</code>.
+For other cookie parameters (lifetime, path, etc.), use <code>session_get_cookie_params()</code> to get them and <code>session_set_cookie_params()</code> to change them.
+You can override the session cookie in response with <code>setcookie()</code> as for any other cookie.</p>
+<h3 id="delete-the-session-itself-destroy">Delete the session itself (destroy)</h3>
+<p>Destroy a PHP session when you do not need anymore the related data.
+Use the <code>session_destroy()</code> function. Warning, <code>session_destroy()</code> does not remove the contents of <code>$_SESSION</code> array. Cleaning up data in <code>$_SESSION</code> can avoid .</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">// Start the session</span>
+<span class="token function">session_start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$_SESSION</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Delete all session variables</span>
+<span class="token comment">// Delete session id cookie</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">ini_get</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"session.use_cookies"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token variable">$params</span> <span class="token operator">=</span> <span class="token function">session_get_cookie_params</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">setcookie</span><span class="token punctuation">(</span><span class="token function">session_name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">''</span><span class="token punctuation">,</span> <span class="token function">time</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">86400</span><span class="token punctuation">,</span> <span class="token variable">$params</span><span class="token punctuation">[</span><span class="token double-quoted-string string">"path"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$params</span><span class="token punctuation">[</span><span class="token double-quoted-string string">"domain"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$params</span><span class="token punctuation">[</span><span class="token double-quoted-string string">"secure"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$params</span><span class="token punctuation">[</span><span class="token double-quoted-string string">"httponly"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// Finally remove the session</span>
+<span class="token function">session_destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="summary-of-session-functions">Summary of session functions</h3>
+<div class="card summary">
+
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>session_start()</code></td>
+<td>Starts the PHP sessions mechanism</td>
+</tr>
+<tr>
+<td><code>$_SESSION</code></td>
+<td>Superglobal containing session variables. Read and write accesses.</td>
+</tr>
+<tr>
+<td><code>session_status()</code></td>
+<td>Provides status on the activation of PHP sessions</td>
+</tr>
+<tr>
+<td><code>session_destroy()</code></td>
+<td>Deletes the current session and related data</td>
+</tr>
+<tr>
+<td><code>session_get_cookie_params()</code></td>
+<td>Reads the session cookie settings</td>
+</tr>
+<tr>
+<td><code>session_set_cookie_params()</code></td>
+<td>Allows to define the session cookie parameters (name, lifetime, ...).</td>
+</tr>
+</tbody></table>
+</div>
+
+<h2 id="a-namejsonajson"><a name="json"></a>JSON</h2>
+<p>Your site can provide any kind of data including JSON data for Ajax purpose. Here is an example of script providing JSON data  </p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token function">header</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"Content-type: text/javascript; charset=utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">header</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"Access-Control-Allow-Origin: *"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token variable">$cart_items</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span>
+    <span class="token single-quoted-string string">'145'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'qty'</span><span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'name'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token single-quoted-string string">'xyz'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token single-quoted-string string">'163'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'qty'</span><span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'name'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token single-quoted-string string">'qwerty'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token single-quoted-string string">'98'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'qty'</span><span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'name'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token single-quoted-string string">'mko'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// write data</span>
+<span class="token keyword">echo</span> <span class="token function">json_encode</span><span class="token punctuation">(</span><span class="token variable">$cart_items</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="summary-of-json-functions">Summary of JSON functions</h3>
+<div class="card summary">
+
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>json_encode()</code></td>
+<td>Encodes PHP data in JSON</td>
+</tr>
+<tr>
+<td><code>json_decode()</code></td>
+<td>Decodes JSON data into PHP data</td>
+</tr>
+</tbody></table>
+</div>
+
+<h2 id="a-namedatabaseadatabases"><a name="database"></a>Databases</h2>
+<p>By default, the wamp server will be using the <em>MySQL</em> DBSM. <em>MariaDB</em> is also installed by WampServer and can be easily used instead.</p>
+<p>To connect to the database, you need <strong>4</strong> parameters :</p>
+<ol>
+<li>Address of database (<code>localhost</code> if the MySQL server is on the same machine)</li>
+<li>Username (<code>root</code> is the default admin user in MySQL)</li>
+<li>Password (Empty password <code>''</code> is the default)</li>
+<li>Database name</li>
+</ol>
+<p>Note that using the MySQL administration account to acces your PHP project datatabase is not the proper way. Consider creating a dedicated MySQL user for this purpose (not explained here).</p>
+<p>The two DB connectors you may use for your school project are :</p>
+<ul>
+<li><a href="https://www.php.net/manual/en/book.mysqli.php">mysqli library</a>  </li>
+<li><a href="https://www.php.net/manual/en/book.pdo.php">PDO interface</a>  </li>
+</ul>
+<h3 id="mysqli-starter-code">mysqli starter code</h3>
+<p>Here is a starter code to access a database using the <em>mysqli</em> library.</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">// Connecting to local MySQL with mysqli, for the database named "mydatabase"</span>
+<span class="token variable">$mysqli</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">mysqli</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"localhost"</span><span class="token punctuation">,</span> <span class="token double-quoted-string string">"root"</span><span class="token punctuation">,</span> <span class="token double-quoted-string string">""</span><span class="token punctuation">,</span> <span class="token double-quoted-string string">"mydatabase"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$mysqli</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">connect_errno</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> <span class="token double-quoted-string string">"Failed to connect to MySQL : ("</span> <span class="token punctuation">.</span> <span class="token variable">$mysqli</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">connect_errno</span> <span class="token punctuation">.</span> <span class="token double-quoted-string string">") "</span> <span class="token punctuation">.</span> <span class="token variable">$mysqli</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">connect_error</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// A MySQL query (SELECT) on table named "mytable"</span>
+<span class="token variable">$queryString</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'SELECT * FROM mytable'</span><span class="token punctuation">;</span>
+<span class="token comment">// Run query</span>
+<span class="token variable">$res</span> <span class="token operator">=</span> <span class="token variable">$mysqli</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token variable">$queryString</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Traversing results ($res-&gt;num_rows is the number of records) </span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$res</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token variable">$res</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">num_rows</span> <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$data_line</span> <span class="token operator">=</span> <span class="token variable">$res</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetch_assoc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Using the results </span>
+        <span class="token comment">// var_dump(data_line);</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Add a line</span>
+<span class="token variable">$queryString</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"INSERT INTO mytable (field1, field1) VALUES ('value1', 'value2')"</span><span class="token punctuation">;</span>
+<span class="token comment">// Run query</span>
+<span class="token variable">$res</span> <span class="token operator">=</span> <span class="token variable">$mysqli</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token variable">$queryString</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Was line inserted ?</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token variable">$insert_id</span> <span class="token operator">=</span> <span class="token variable">$mysqli</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">insert_id</span><span class="token punctuation">;</span>
+    <span class="token comment">//var_dump($insert_id);</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="pdo-starter-code">PDO starter code</h3>
+<p>here is a starter code to access a database using the <em>PDO</em> connector. </p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">// Parameters</span>
+<span class="token function">define</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'CONN_HOST'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'127.0.0.1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">define</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'CONN_USER'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'myuser'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">define</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'CONN_PORT'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'3307'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">define</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'CONN_PWD'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'TXNuXxBuq34Mt0s3'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">define</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'DBNAME'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'mydatabase'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Connecting</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token variable">$dsn</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'mysql:host='</span> <span class="token punctuation">.</span> <span class="token constant">CONN_HOST</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">';port='</span><span class="token punctuation">.</span> <span class="token constant">CONN_PORT</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">';dbname='</span> <span class="token punctuation">.</span> <span class="token constant">DBNAME</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">';charset=utf8'</span><span class="token punctuation">;</span>
+<span class="token comment">//    var_dump($dsn);</span>
+    <span class="token variable">$pdo</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PDO</span><span class="token punctuation">(</span>
+        <span class="token variable">$dsn</span><span class="token punctuation">,</span>
+        <span class="token constant">CONN_USER</span><span class="token punctuation">,</span>
+        <span class="token constant">CONN_PWD</span><span class="token punctuation">,</span>
+        <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token constant">PDO</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token constant">MYSQL_ATTR_INIT_COMMAND</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token single-quoted-string string">'SET NAMES \'UTF8\''</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$pdo</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token constant">PDO</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token constant">ATTR_ERRMODE</span><span class="token punctuation">,</span> <span class="token constant">PDO</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token constant">ERRMODE_EXCEPTION</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> <span class="token single-quoted-string string">'Failed to connect to MySQL : ('</span> <span class="token punctuation">.</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">')&lt;br/&gt;'</span><span class="token punctuation">;</span>
+    <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/**
+ * Authenticate a user
+ * 1) Search user by username
+ * 2) If exists, make authentication with provided password (see helper functions below)
+ * With this approach, it is necessary to read stored hash in order to make authentication 
+ * @param $username
+ * @param $password
+ * @return array|bool
+ */</span>
+<span class="token keyword">function</span> <span class="token function">user_authenticate</span><span class="token punctuation">(</span><span class="token variable">$username</span><span class="token punctuation">,</span> <span class="token variable">$password</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">global</span> <span class="token variable">$pdo</span><span class="token punctuation">;</span>
+    <span class="token variable">$res</span> <span class="token operator">=</span> <span class="token boolean constant">false</span><span class="token punctuation">;</span> <span class="token comment">// User not authenticated unless password good  </span>
+    <span class="token variable">$queryStr</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'SELECT * FROM user WHERE `username` = :username'</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token variable">$sth</span> <span class="token operator">=</span> <span class="token variable">$pdo</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">prepare</span><span class="token punctuation">(</span><span class="token variable">$queryStr</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$params</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span>
+            <span class="token single-quoted-string string">':username'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token variable">$username</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$res</span> <span class="token operator">=</span> <span class="token variable">$sth</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token variable">$params</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//$sth-&gt;debugDumpParams();</span>
+        <span class="token comment">//$sth-&gt;errorInfo();</span>
+        <span class="token comment">//var_dump($res);</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token double-quoted-string string">"Failed to execute select query : ("</span> <span class="token punctuation">.</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">')&lt;br/&gt;'</span><span class="token punctuation">;</span>
+        <span class="token keyword">exit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token variable">$user_data</span> <span class="token operator">=</span> <span class="token variable">$sth</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token constant">PDO</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token constant">FETCH_ASSOC</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// Test for authentication</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">passwd_check</span><span class="token punctuation">(</span><span class="token variable">$password</span><span class="token punctuation">,</span> <span class="token variable">$user_data</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'password_hash'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token variable">$user_data</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// Remove hash from returned values</span>
+            <span class="token keyword">unset</span><span class="token punctuation">(</span><span class="token variable">$user_data</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'password_hash'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token variable">$res</span> <span class="token operator">=</span> <span class="token variable">$user_data</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token variable">$res</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/**
+ * Empty a table
+ * Warning, no undo !!!!
+ * @param $tablename : name of table to empty
+ * @return bool
+ */</span>
+<span class="token keyword">function</span> <span class="token function">table_truncate</span><span class="token punctuation">(</span><span class="token variable">$tablename</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">global</span> <span class="token variable">$pdo</span><span class="token punctuation">;</span>
+    <span class="token variable">$res</span> <span class="token operator">=</span> <span class="token boolean constant">false</span><span class="token punctuation">;</span>
+    <span class="token variable">$queryStr</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'TRUNCATE TABLE '</span><span class="token punctuation">.</span> <span class="token variable">$tablename</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token variable">$pdo</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token variable">$queryStr</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$res</span> <span class="token operator">=</span> <span class="token boolean constant">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>PDOException <span class="token variable">$e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token double-quoted-string string">"Failed to execute truncate query on table <span class="token interpolation"><span class="token variable">$tablename</span></span>: ("</span> <span class="token punctuation">.</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">')&lt;br/&gt;'</span><span class="token punctuation">;</span>
+        <span class="token variable">$res</span> <span class="token operator">=</span> <span class="token boolean constant">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token variable">$res</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<h3 id="authentication">Authentication</h3>
+<p>Here are functions to manage user authentication.</p>
+<div class="code-toolbar"><pre class=" language-php"><code class=" language-php"><span class="token comment">/**
+ *  Some usefull functions:
+ *     - passwd_encrypt() : Encrypts a password
+ *  - passwd_check() : Authenticated a user  
+ */</span>
+
+
+<span class="token comment">/**
+ * Encrypts a password
+ * @param $password : Password to encrypt
+ * @return string : Encrypted password
+ * http://www.yiiframework.com/wiki/425/use-crypt-for-password-storage/
+ */</span>
+<span class="token keyword">function</span> <span class="token function">passwd_encrypt</span><span class="token punctuation">(</span><span class="token variable">$password</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">version_compare</span><span class="token punctuation">(</span><span class="token constant">PHP_VERSION</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'5.5.0'</span><span class="token punctuation">)</span> <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// PHP version &gt;= 5.5 -&gt; can use functions password_hash() and password_verify()</span>
+        <span class="token variable">$password_hash</span> <span class="token operator">=</span> <span class="token function">password_hash</span><span class="token punctuation">(</span><span class="token variable">$password</span><span class="token punctuation">,</span> <span class="token constant">PASSWORD_DEFAULT</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token variable">$salt</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'$2y$07$'</span> <span class="token punctuation">.</span> <span class="token function">strtr</span><span class="token punctuation">(</span><span class="token function">base64_encode</span><span class="token punctuation">(</span><span class="token function">mcrypt_create_iv</span><span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">,</span> <span class="token constant">MCRYPT_DEV_URANDOM</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'+'</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$password_hash</span> <span class="token operator">=</span> <span class="token function">crypt</span><span class="token punctuation">(</span><span class="token variable">$password</span><span class="token punctuation">,</span> <span class="token variable">$salt</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token variable">$password_hash</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/**
+ * Compare a clear password with a previoulsy stored hash
+ * Stored hash code is necessary to calculate the provided password hash
+ * @param $password : Password to check
+ * @param $password_hash : Hash code of password to check
+ * @return boolean : True if valid, false otherwise
+ */</span>
+<span class="token keyword">function</span> <span class="token function">passwd_check</span><span class="token punctuation">(</span><span class="token variable">$password</span><span class="token punctuation">,</span> <span class="token variable">$password_hash</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">version_compare</span><span class="token punctuation">(</span><span class="token constant">PHP_VERSION</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'5.5.0'</span><span class="token punctuation">)</span> <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// PHP version &gt;= 5.5 -&gt; can use functions password_hash() and password_verify()</span>
+        <span class="token variable">$result</span> <span class="token operator">=</span> <span class="token function">password_verify</span><span class="token punctuation">(</span><span class="token variable">$password</span><span class="token punctuation">,</span> <span class="token variable">$password_hash</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token variable">$result</span> <span class="token operator">=</span> <span class="token punctuation">(</span> <span class="token variable">$password_hash</span> <span class="token operator">===</span> <span class="token function">crypt</span><span class="token punctuation">(</span><span class="token variable">$password</span><span class="token punctuation">,</span> <span class="token variable">$password_hash</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token variable">$result</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
+<footer><p class="text-center text-muted">© Copyright 2020 Gilles Pénissard<br>This course material cannot be redistributed without the prior consent of the author</p></footer><script src="./php_en_files/prism.js.download"></script></body></html>
